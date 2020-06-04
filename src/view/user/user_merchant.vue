@@ -8,19 +8,38 @@
               <Input
                 class="search_item"
                 type="text"
-                v-model="searchList.searchCondition.orderId"
+                v-model="searchList.searchCondition.merchantName"
                 clearable
-                placeholder="订单ID"
+                placeholder="组织名"
+              ></Input>
+              <Input
+                class="search_item"
+                type="text"
+                v-model="searchList.searchCondition.legalPerson"
+                clearable
+                placeholder="法人名"
               ></Input>
               <Select
                 clearable
                 placeholder="状态"
                 @on-change="searchManage"
-                v-model="searchList.searchCondition.orderStatus"
+                v-model="searchList.searchCondition.auditStatus"
                 class="search_item"
               >
                 <Option
                   v-for="item in viewData.statusList"
+                  :value="item.value"
+                  :key="item.value"
+                >{{ item.label }}</Option>
+              </Select>
+              <Select
+                placeholder="身份"
+                @on-change="searchManage"
+                v-model="searchList.searchCondition.role"
+                class="search_item"
+              >
+                <Option
+                  v-for="item in viewData.roleList"
                   :value="item.value"
                   :key="item.value"
                 >{{ item.label }}</Option>
@@ -39,6 +58,7 @@
               <Button style="margin-right:10px" @click="searchPageReturn">
                 <Icon size="18" type="ios-search" />
               </Button>
+              <!-- <Button icon="md-add" @click="showAdd()">增加组织</Button> -->
             </Form-item>
             <Modal
               :mask-closable="false"
@@ -49,8 +69,8 @@
             >
               <Form :label-width="80">
                 <Form-item class="form_item">
-                  确认拒绝订单id：
-                  <span style="color:red">{{viewData.Confirm.orderId}}</span>
+                  确认拒绝组织id：
+                  <span style="color:red">{{viewData.Confirm.registerId}}</span>
                   的审核吗？
                 </Form-item>
                 <Form-item class="form_item" label="拒绝原因:">
@@ -70,8 +90,8 @@
               v-model="viewData.modalPass"
               @on-ok="onAuditBtn(1)"
             >
-              确认通过订单id：
-              <span style="color:red">{{viewData.Confirm.orderId}}</span>
+              确认通过组织id：
+              <span style="color:red">{{viewData.Confirm.registerId}}</span>
               的审核吗？
             </Modal>
             <Modal
@@ -80,59 +100,46 @@
               v-model="viewData.modalDelete"
               @on-ok="onDeleteBtn"
             >
-              确认删除订单id为：
-              <span style="color:red">{{viewData.Delete.orderId}}</span>
-              的订单吗？
+              确认删除组织id为：
+              <span style="color:red">{{viewData.Delete.registerId}}</span>
+              的组织吗？
             </Modal>
             <Modal
-              title="查看订单信息详情"
+              title="查看组织信息详情"
               width="55"
               :styles="{top: '70px'}"
               v-model="viewData.modalDetail"
             >
               <div class="order_info">
-                <h3>订单信息</h3>
+                <h3>组织信息</h3>
                 <Row>
-                  <Col span="10">订单id: {{viewData.Detail.orderId}}</Col>
-                  <Col span="10">订单状态: {{viewData.Detail.orderStatusChina}}</Col>
+                  <Col span="10">组织id: {{viewData.Detail.registerId}}</Col>
+                  <Col span="10">审核状态: {{viewData.Detail.auditStatusChina}}</Col>
                 </Row>
                 <Row>
-                  <Col span="10">开展课程ID: {{viewData.Detail.courseLogId}}元</Col>
-                  <Col span="10">创建时间: {{viewData.Detail.createTime}}</Col>
+                  <Col span="10">组织名: {{viewData.Detail.merchantName}}</Col>
+                  <Col span="10">身份: {{viewData.Detail.roleChina}}</Col>
                 </Row>
                 <Row>
-                  <Col span="10">订单价格: {{viewData.Detail.orderPrice}}元</Col>
-                  <Col span="10">付款时间: {{viewData.Detail.payTime}}</Col>
+                  <Col span="10">单位电话: {{viewData.Detail.merchantPhone}}</Col>
+                  <Col span="10">审核时间: {{viewData.Detail.auditTime}}</Col>
                 </Row>
                 <Row>
-                  <Col span="10">课程名: {{viewData.Detail.courseName}}</Col>
-                  <Col span="10">课程开展时间: {{viewData.Detail.courseStartTime}}</Col>
+                  <Col span="10">联系电话: {{viewData.Detail.contactNumber}}</Col>
+                  <Col span="10">法人姓名: {{viewData.Detail.legalPerson}}</Col>
                 </Row>
+                <h4>地址: {{viewData.Detail.merchantAddr}}</h4>
+                <h4>组织简介: {{viewData.Detail.merchantDesc}}</h4>
+                <h3>营业执照</h3>
                 <Row>
-                  <Col span="10">学生名: {{viewData.Detail.stuName}}</Col>
-                  <Col span="10">身份证号: {{viewData.Detail.stuIdentityCard}}</Col>
-                </Row>
-                <h4>学校: {{viewData.Detail.stuSchool}}</h4>
-                <Row>
-                  <Col span="10">班级: {{viewData.Detail.stuGrade}}</Col>
-                  <Col span="10">联系电话: {{viewData.Detail.stuMobile}}</Col>
-                </Row>
-                <Row>
-                  <Col span="10">紧急联系人: {{viewData.Detail.emergencyContact}}</Col>
-                  <Col span="10">紧急联系电话: {{viewData.Detail.emergencyContactNumber}}</Col>
-                </Row>
-                <h3>承办机构</h3>
-                <Row>
-                  <Col span="10">导师: {{viewData.Detail.tutorName}}</Col>
-                  <Col span="10">联系电话: {{viewData.Detail.tutorContactNumber}}</Col>
-                </Row>
-                <Row>
-                  <Col span="10">机构: {{viewData.Detail.merchantName}}</Col>
-                  <Col span="10">联系电话: {{viewData.Detail.merchantContactNumber}}</Col>
-                </Row>
-                <Row>
-                  <Col span="10">基地: {{viewData.Detail.baseName}}</Col>
-                  <Col span="10">联系电话: {{viewData.Detail.baseContactNumber}}</Col>
+                  <Col span="18">
+                    <img
+                      :src="viewData.Detail.businessLicense"
+                      class="img_item"
+                      preview="0"
+                      preview-text="信息封面图"
+                    />
+                  </Col>
                 </Row>
               </div>
             </Modal>
@@ -177,49 +184,44 @@ export default {
         categoryList: [],
         columns: [
           {
-            title: '订单Id',
+            title: '组织Id',
             align: 'center',
-            key: 'orderId'
+            key: 'registerId'
           },
           {
-            title: '课程名',
+            title: '组织名',
             align: 'center',
-            key: 'courseName'
+            key: 'merchantName'
           },
           {
-            title: '学生名',
+            title: '法人名',
             align: 'center',
-            key: 'stuName'
+            key: 'legalPerson'
           },
           {
-            title: '学校',
+            title: '单位电话',
             align: 'center',
-            key: 'stuSchool'
-          },
-          {
-            title: '班级',
-            align: 'center',
-            key: 'stuGrade'
+            key: 'merchantPhone'
           },
           {
             title: '联系电话',
             align: 'center',
-            key: 'stuMobile'
+            key: 'contactNumber'
           },
           {
-            title: '订单价格',
+            title: '地址',
             align: 'center',
-            key: 'orderPrice'
+            key: 'merchantAddr'
           },
           {
-            title: '订单状态',
+            title: '审核状态',
             align: 'center',
-            key: 'orderStatusChina'
+            key: 'auditStatusChina'
           },
           {
-            title: '创建时间',
+            title: '审核时间',
             align: 'center',
-            key: 'createTime'
+            key: 'auditTime'
           },
           {
             title: '操作',
@@ -247,7 +249,7 @@ export default {
                   '详情'
                 )
               ]
-              if (params.row.orderStatus === -3) {
+              if (params.row.auditStatus === 0) {
                 arr.push(
                   h(
                     'Button',
@@ -278,24 +280,6 @@ export default {
                       }
                     },
                     '拒绝'
-                  )
-                )
-              }else if(params.row.orderStatus === 1||params.row.orderStatus === 2){
-                arr.push(
-                  h(
-                    'Button',
-                    {
-                      props: {
-                        type: 'warning',
-                        size: 'small'
-                      },
-                      on: {
-                        click: () => {
-                          this.showRefuse(params.row)
-                        }
-                      }
-                    },
-                    '取消'
                   )
                 )
               }
@@ -330,31 +314,25 @@ export default {
         statusList: [
           {
             value: 0,
-            label: '待付款'
+            label: '待审核'
           },
           {
             value: 1,
-            label: '待参加'
-          },
-          {
-            value: 2,
-            label: '参加中'
-          },
-          {
-            value: 3,
-            label: '已完成'
+            label: '已通过'
           },
           {
             value: -1,
-            label: '已取消'
+            label: '不通过'
+          }
+        ],
+        roleList: [
+          {
+            value: 4,
+            label: '机构'
           },
           {
-            value: -2,
-            label: '退款中'
-          },
-          {
-            value: -3,
-            label: '申请退款中'
+            value: 5,
+            label: '基地'
           }
         ]
       }
@@ -376,7 +354,7 @@ export default {
       axios
         .delete('/api/merchant/delete', {
           data: {
-            orderId: this.viewData.Delete.orderId
+            registerId: this.viewData.Delete.registerId
           }
         })
         .then(res => {
@@ -389,7 +367,7 @@ export default {
         .put(
           '/api/user/merchant_audit',
           qs.stringify({
-            orderId: this.viewData.Confirm.orderId,
+            registerId: this.viewData.Confirm.registerId,
             isPass: status,
             reason: status ? '' : this.viewData.Confirm.reason
           })
@@ -406,7 +384,7 @@ export default {
     showDetail(row) {
       this.viewData.modalDetail = true
       this.viewData.Detail = row
-      this.viewData.orderId = row.orderId
+      this.viewData.registerId = row.registerId
       this.searchDetail()
     },
     showPass(item) {
@@ -428,11 +406,12 @@ export default {
     },
     searchManage() {
       axios
-        .get('/api/order/get', {
+        .get('/api/user/merchant_list', {
           params: {
             page: this.searchList.searchCondition.page,
-            orderId: this.searchList.searchCondition.orderId,
-            orderStatus: this.searchList.searchCondition.orderStatus
+            merchantName: this.searchList.searchCondition.merchantName,
+            role: this.searchList.searchCondition.role,
+            auditStatus: this.searchList.searchCondition.auditStatus
           }
         })
         .then(res => {
@@ -442,9 +421,9 @@ export default {
     },
     searchDetail() {
       axios
-        .get('/api/order/detail', {
+        .get('/api/user/merchant_detail', {
           params: {
-            orderId: this.viewData.orderId
+            registerId: this.viewData.registerId
           }
         })
         .then(res => {

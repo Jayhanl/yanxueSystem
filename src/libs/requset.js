@@ -27,7 +27,7 @@ axios.interceptors.response.use(
       }
       return Promise.reject(response)
     } else {
-      return Promise.resolve(response)
+      return Promise.resolve(response.data)
     }
 
     // if (response.status === 200) {

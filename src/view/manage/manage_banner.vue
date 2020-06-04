@@ -16,7 +16,7 @@
             @on-cancel="onModelCancel">
             <Form :label-width="80">
               <Form-item class="form_item" label="排序序号:">
-                <Input style="width: 200px" v-model="viewData.Add.orderId" type="text" placeholder="请输入正整数"></Input>
+                <Input style="width: 200px" v-model="viewData.Add.listOrder" type="text" placeholder="请输入正整数"></Input>
               </Form-item>
               <Form-item class="form_item" label="备注:">
                 <Input style="width: 200px" v-model="viewData.Add.remark" type="text" placeholder="备注"></Input>
@@ -37,7 +37,7 @@
             @on-cancel="onModelCancel">
             <Form :label-width="80">
               <Form-item class="form_item" label="排序序号:">
-                <Input style="width: 200px" v-model="viewData.Edit.orderId" type="text" placeholder="请输入正整数"></Input>
+                <Input style="width: 200px" v-model="viewData.Edit.listOrder" type="text" placeholder="请输入正整数"></Input>
               </Form-item>
               <Form-item class="form_item" label="备注:">
                 <Input style="width: 200px" v-model="viewData.Edit.remark" type="text" placeholder="备注"></Input>
@@ -106,7 +106,7 @@
             {
               title: "排序序号",
               align: "center",
-              key: "orderId"
+              key: "listOrder"
             },
             {
               title: "备注",
@@ -177,11 +177,11 @@
         viewData: {
           Add: {
             categoryName: "",
-            orderId: ""
+            listOrder: ""
           },
           Edit: {
             categoryName: "",
-            orderId: ""
+            listOrder: ""
           },
           ImgSrc: '',
           pList: [],
@@ -222,7 +222,7 @@
           });
       },
       onAddBtn() {
-        if (this.viewData.Add.orderId === "") {
+        if (this.viewData.Add.listOrder === "") {
           this.$Message.error("请输入排序序号");
           return;
         }
@@ -233,7 +233,7 @@
               "/api/banner/create",
               qs.stringify({
                 remark: this.viewData.Add.remark,
-                orderId: this.viewData.Add.orderId,
+                listOrder: this.viewData.Add.listOrder,
                 imageSrc: this.viewData.ImgSrc
               })
             )
@@ -247,7 +247,7 @@
         }
       },
       onEditBtn() {
-        if (this.viewData.Edit.orderId === "") {
+        if (this.viewData.Edit.listOrder === "") {
           this.$Message.error("请输入排序序号");
           return;
         }
@@ -256,7 +256,7 @@
           let image = {
             id: this.viewData.Edit.id,
             remark: this.viewData.Edit.remark,
-            orderId: this.viewData.Edit.orderId
+            listOrder: this.viewData.Edit.listOrder
           };
           if (this.viewData.Edit.imageSrc !== this.viewData.ImgSrc) {
             image.imageSrc = this.viewData.ImgSrc;
@@ -304,7 +304,7 @@
       searchManage() {
         console.log(this.searchList.searchCondition.pid);
         axios.get('/api/banner/get').then(response => {
-          this.searchList.pageData.content = response.data.data
+          this.searchList.pageData.content = response.data
         })
       }
     },

@@ -48,57 +48,51 @@ export default [{
   }]
 },
 {
-  path: '/goods',
-  name: 'goods',
+  path: '/course',
+  name: 'course',
   meta: {
     icon: 'md-cart',
-    title: '商品'
+    title: 'course'
   },
   component: Main,
   children: [{
-    path: 'goods_class',
-    name: 'goods_class',
+    path: 'course_class',
+    name: 'course_class',
     meta: {
       icon: 'ios-keypad',
-      title: '商品分类'
+      title: '课程分类'
     },
-    component: () => import('@/view/manage/manage_class.vue')
+    component: () => import('@/view/course/course_class.vue')
   }, {
-    path: 'manage_goods',
-    name: 'manage_goods',
+    path: 'course_manage',
+    name: 'course_manage',
     meta: {
       icon: 'md-list-box',
-      title: '商品管理'
+      title: '课程管理'
     },
-    component: () => import('@/view/manage/manage_goods.vue')
+    component: () => import('@/view/course/course_manage.vue')
+  }, {
+    path: 'course_launch',
+    name: '开展课程',
+    meta: {
+      icon: 'ios-pricetag',
+      title: '开展课程'
+    },
+    component: () => import('@/view/course/course_launch.vue')
   }]
 },
 {
-  path: '/purchase',
-  name: 'purchase',
+  path: '/order',
+  name: 'order',
   component: Main,
   children: [{
-    path: 'manage_purchase',
-    name: 'manage_purchase',
+    path: 'manage_order',
+    name: 'manage_order',
     meta: {
       icon: 'md-list-box',
-      title: '采购信息列表'
+      title: '订单列表'
     },
-    component: () => import('@/view/manage/manage_purchase.vue')
-  }]
-},
-{
-  path: '/merchant',
-  name: 'merchant',
-  component: Main,
-  children: [{
-    path: 'manage_merchant',
-    name: 'manage_merchant',
-    meta: {
-      icon: 'md-contacts',
-      title: '商家管理'
-    },
-    component: () => import('@/view/manage/manage_merchant.vue')
+    component: () => import('@/view/manage/manage_order.vue')
   }]
 },
 {
@@ -128,19 +122,38 @@ export default [{
     },
     component: () => import('@/view/manage/manage_message.vue')
   }]
-},
-{
+}, {
   path: '/user',
   name: 'user',
+  meta: {
+    icon: 'ios-people',
+    title: '用户'
+  },
   component: Main,
   children: [{
-    path: 'manage_user',
-    name: 'manage_user',
+    path: 'user_manage',
+    name: 'user_manage',
     meta: {
       icon: 'ios-people',
       title: '用户管理'
     },
-    component: () => import('@/view/manage/manage_user.vue')
+    component: () => import('@/view/user/user_manage.vue')
+  }, {
+    path: 'user_person',
+    name: 'user_person',
+    meta: {
+      icon: 'ios-people',
+      title: '个人注册列表'
+    },
+    component: () => import('@/view/user/user_person.vue')
+  }, {
+    path: 'user_merchant',
+    name: 'user_merchant',
+    meta: {
+      icon: 'ios-people',
+      title: '组织注册列表'
+    },
+    component: () => import('@/view/user/user_merchant.vue')
   }]
 },
 {

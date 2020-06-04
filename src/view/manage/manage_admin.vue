@@ -322,8 +322,8 @@
             }
           })
           .then(res => {
-            this.searchList.pageData.content = res.data.data.data
-            this.searchList.pageData.total = res.data.data.total;
+            this.searchList.pageData.content = res.data.data
+            this.searchList.pageData.total = res.data.total;
           })
       }
     },
