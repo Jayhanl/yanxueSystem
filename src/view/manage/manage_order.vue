@@ -215,7 +215,7 @@ export default {
                       }
                     }
                   },
-                  '通过'
+                  '通过退款'
                 ),
                 h(
                   'Button', {
@@ -229,7 +229,7 @@ export default {
                       }
                     }
                   },
-                  '拒绝'
+                  '拒绝退款'
                 )
               )
             } else if (params.row.orderStatus === 1 || params.row.orderStatus === 2) {
