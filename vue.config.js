@@ -36,7 +36,7 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: 'http://192.168.3.7:9402/', // 要请求的后台地址
+        target: 'http://192.168.1.105:9402/', // 要请求的后台地址
         // http://192.168.1.105
         // ws: true, // 启用websockets
         changeOrigin: true, // 是否跨域

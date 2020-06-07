@@ -79,6 +79,14 @@ export default [{
       title: '开展课程'
     },
     component: () => import('@/view/course/course_launch.vue')
+  }, {
+    path: 'course_sidelights',
+    name: '课程花絮',
+    meta: {
+      icon: 'md-list-box',
+      title: '课程花絮'
+    },
+    component: () => import('@/view/course/course_sidelights.vue')
   }]
 },
 {
