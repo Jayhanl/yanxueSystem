@@ -12,22 +12,22 @@ export default {
       default: '800px'
     }
   },
-  data() {
+  data () {
     return {
       helloMessage: ''
     }
   },
   methods: {
-    hello() {
+    hello () {
       let hello = ''
       const hour = new Date().getHours()
-      if (hour < 6) hello = '凌晨好，欢迎来到防疫信息平台后台'
-      else if (hour < 9) hello = '早上好，欢迎来到防疫信息平台后台'
-      else if (hour < 12) hello = '上午好，欢迎来到防疫信息平台后台'
-      else if (hour < 14) hello = '中午好，欢迎来到防疫信息平台后台'
-      else if (hour < 17) hello = '下午好，欢迎来到防疫信息平台后台'
-      else if (hour < 19) hello = '傍晚好，欢迎来到防疫信息平台后台'
-      else if (hour < 22) hello = '晚上好，欢迎来到防疫信息平台后台'
+      if (hour < 6) hello = '凌晨好，欢迎来到研学旅行后台'
+      else if (hour < 9) hello = '早上好，欢迎来到研学旅行后台'
+      else if (hour < 12) hello = '上午好，欢迎来到研学旅行后台'
+      else if (hour < 14) hello = '中午好，欢迎来到研学旅行后台'
+      else if (hour < 17) hello = '下午好，欢迎来到研学旅行后台'
+      else if (hour < 19) hello = '傍晚好，欢迎来到研学旅行后台'
+      else if (hour < 22) hello = '晚上好，欢迎来到研学旅行后台'
       else {
         hello = '夜深了，注意休息'
       }
@@ -35,10 +35,10 @@ export default {
       this.$Message.success(`欢迎回来：${this.$store.state.user.username}`)
     }
   },
-  created() {
+  created () {
     this.hello()
   },
-  activated() {
+  activated () {
     this.hello()
   }
 }

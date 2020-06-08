@@ -88,7 +88,6 @@
                   preview="1" preview-text="信息图" />
                 </Col>
               </Row>
-
               <!-- 用户信息 -->
               <!-- <h3>信息认证</h3>是否通过认证：
               <Switch :value="viewData.Detail.isAuthentication===1" @on-change="changeAuthentication" size="large">

@@ -104,6 +104,20 @@ export default [{
   }]
 },
 {
+  path: '/appraise',
+  name: 'appraise',
+  component: Main,
+  children: [{
+    path: 'manage_appraise',
+    name: '评价列表',
+    meta: {
+      icon: 'md-list-box',
+      title: '评价列表'
+    },
+    component: () => import('@/view/manage/manage_appraise.vue')
+  }]
+},
+{
   path: '/banner',
   name: 'banner',
   component: Main,
@@ -118,19 +132,6 @@ export default [{
   }]
 },
 {
-  path: '/message',
-  name: 'message',
-  component: Main,
-  children: [{
-    path: 'manage_message',
-    name: 'manage_message',
-    meta: {
-      icon: 'ios-pricetag',
-      title: '消息管理'
-    },
-    component: () => import('@/view/manage/manage_message.vue')
-  }]
-}, {
   path: '/user',
   name: 'user',
   meta: {

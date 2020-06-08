@@ -7,7 +7,7 @@ import store from '@/store'
 // const init = function () {
 // axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8'
 // axios.defaults.headers.common.Authorization = store.state.user.token
-const root = process.env.NODE_ENV === 'production' ? 'http://39.108.180.164:9302' : '/api'
+const root = process.env.NODE_ENV === 'production' ? '' : ''
 axios.interceptors.request.use(config => {
   config.url = root + config.url
   return config
