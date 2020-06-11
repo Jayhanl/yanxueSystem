@@ -166,6 +166,20 @@ export default [{
   }]
 },
 {
+  path: '/school',
+  name: 'school',
+  component: Main,
+  children: [{
+    path: 'manage_school',
+    name: '学校管理',
+    meta: {
+      icon: 'ios-person',
+      title: '学校管理'
+    },
+    component: () => import('@/view/manage/manage_school.vue')
+  }]
+},
+{
   path: '/admin',
   name: 'admin',
   component: Main,

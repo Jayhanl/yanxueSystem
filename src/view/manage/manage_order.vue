@@ -19,7 +19,7 @@
             <Button style="margin-right:10px" @click="searchPageReturn">
               <Icon size="18" type="ios-search" />
             </Button>
-          </Form-item>modalCancel
+          </Form-item>
           <Modal :mask-closable="false" title="取消确认" width="400" v-model="viewData.modalCancel" @on-ok="onCancelBtn">
             <Form :label-width="80">
               <Form-item class="">
