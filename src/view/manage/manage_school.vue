@@ -262,7 +262,7 @@ export default {
                     }
                   }
                 },
-                '添加学校'
+                '添加年级'
               )
             ]
             return h('div', arr)
