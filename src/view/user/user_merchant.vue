@@ -130,15 +130,23 @@
                 </Row>
                 <h4>地址: {{viewData.Detail.merchantAddr}}</h4>
                 <h4>组织简介: {{viewData.Detail.merchantDesc}}</h4>
-                <h3>营业执照</h3>
+                <h3>图片</h3>
                 <Row>
+                  <Col span="4">营业执照:</Col>
                   <Col span="18">
                     <img
                       :src="viewData.Detail.businessLicense"
                       class="img_item"
                       preview="0"
-                      preview-text="信息封面图"
+                      preview-text="营业执照"
                     />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span="4">图片介绍:</Col>
+                  <Col span="18">
+                  <img v-for="(item,index) in viewData.Detail.merchantGallery" :key="index" :src="item" class="img_item"
+                    preview="1" preview-text="图片介绍" />
                   </Col>
                 </Row>
               </div>
@@ -166,7 +174,7 @@ import axios from 'axios'
 import qs from 'qs'
 
 export default {
-  data() {
+  data () {
     return {
       formDynamic: {
         index: 1,
@@ -339,18 +347,18 @@ export default {
     }
   },
   methods: {
-    showImg(ad_picture_url) {
+    showImg (ad_picture_url) {
       this.$Modal.info({
         title: '预览图片',
         closable: true,
         content: `<br /><img style="width: 100%" src=${[ad_picture_url]} />`
       })
     },
-    onPageChange(pageNum) {
+    onPageChange (pageNum) {
       this.searchList.searchCondition.page = pageNum
       this.searchManage()
     },
-    onDeleteBtn() {
+    onDeleteBtn () {
       axios
         .delete('/api/merchant/delete', {
           data: {
@@ -362,7 +370,7 @@ export default {
           this.searchManage()
         })
     },
-    onAuditBtn(status) {
+    onAuditBtn (status) {
       axios
         .put(
           '/api/user/merchant_audit',
@@ -378,33 +386,33 @@ export default {
           this.searchManage()
         })
     },
-    onModelCancel() {
+    onModelCancel () {
       this.searchManage()
     },
-    showDetail(row) {
+    showDetail (row) {
       this.viewData.modalDetail = true
       this.viewData.Detail = row
       this.viewData.registerId = row.registerId
       this.searchDetail()
     },
-    showPass(item) {
+    showPass (item) {
       this.viewData.Confirm = item
       this.viewData.modalPass = true
     },
-    showRefuse(item) {
+    showRefuse (item) {
       this.viewData.Confirm = item
       this.viewData.modalRefuse = true
     },
-    showDelete(item) {
+    showDelete (item) {
       this.viewData.Delete = item
       this.viewData.modalDelete = true
     },
-    searchPageReturn() {
+    searchPageReturn () {
       this.searchList.searchCondition.page = 1
       this.searchManage()
       this.$Message.success('搜索完成!')
     },
-    searchManage() {
+    searchManage () {
       axios
         .get('/api/user/merchant_list', {
           params: {
@@ -419,7 +427,7 @@ export default {
           this.searchList.pageData.total = res.data.total
         })
     },
-    searchDetail() {
+    searchDetail () {
       axios
         .get('/api/user/merchant_detail', {
           params: {
@@ -431,7 +439,7 @@ export default {
         })
     }
   },
-  created() {
+  created () {
     this.searchManage()
   }
 }

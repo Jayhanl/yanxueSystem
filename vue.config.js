@@ -36,7 +36,7 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: 'http://192.168.1.105:9402/api', // http://192.168.1.105:9402
+        target: 'http://120.25.223.117:8888/api', // http://192.168.1.105:9402
         // http://192.168.1.105
         // ws: true, // 启用websockets
         changeOrigin: true, // 是否跨域
@@ -45,7 +45,7 @@ module.exports = {
         }
       },
       '/admin': {
-        target: 'https://sjplatform.mynatapp.cc', // https://www.stutour.cn/appraise
+        target: 'https://www.stutour.cn', // https://www.stutour.cn/appraise
         // http://192.168.1.105
         // ws: true, // 启用websockets
         changeOrigin: true, // 是否跨域
