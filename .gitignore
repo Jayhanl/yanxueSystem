@@ -25,5 +25,5 @@ yarn-error.log*
 *.sln
 *.sw*
 *.zip
-
+*.history
 build/env.js
