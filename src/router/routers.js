@@ -90,6 +90,24 @@ export default [{
   }]
 },
 {
+  path: '/line',
+  name: '路线',
+  meta: {
+    icon: 'ios-git-merge',
+    title: 'line'
+  },
+  component: Main,
+  children: [{
+    path: 'line_manage',
+    name: '路线管理',
+    meta: {
+      icon: 'md-list-box',
+      title: '路线管理'
+    },
+    component: () => import('@/view/line/line_manage.vue')
+  }]
+},
+{
   path: '/order',
   name: 'order',
   component: Main,

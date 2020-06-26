@@ -21,14 +21,13 @@
 <script>
 import LoginForm from '_c/login-form'
 import { mapActions } from 'vuex'
-import { login } from '@/api/user'
 export default {
   components: {
     LoginForm
   },
   methods: {
     ...mapActions(['handleLogin', 'getUserInfo']),
-    handleSubmit({ username, password }) {
+    handleSubmit ({ username, password }) {
       this.$Message.warning('登录中,请稍等...')
       this.handleLogin({ username, password }).then(res => {
         this.getUserInfo()

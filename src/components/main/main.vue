@@ -15,6 +15,7 @@
         <div class="logo-con">
           <div v-show="!collapsed">
             <img :src="maxLogo" key="max-logo" />
+            <span style="font-size: 20px;margin-left:20px;color:#fff">研学旅行</span>
             <Icon type="ios-lock-outline" size="20" v-show="menuFixed" @click="handleStateChange" />
             <Icon type="ios-unlock-outline" size="20" v-show="!menuFixed" @click="handleStateChange" />
           </div>
@@ -59,8 +60,6 @@ import ErrorStore from './components/error-store'
 import { mapMutations, mapActions, mapGetters } from 'vuex'
 import { getNewTagList, routeEqual } from '@/libs/util'
 import routers from '@/router/routers'
-import minLogo from '@/assets/images/logo-min.png'
-import maxLogo from '@/assets/images/logo.png'
 import './main.less'
 export default {
   name: 'Main',
