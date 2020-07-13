@@ -95,42 +95,6 @@
               <span style="color:red">{{viewData.Delete.openid}}</span>
               的信息吗？
             </Modal>
-            <Modal
-              v-model="viewData.modalPay"
-              title="意向购买"
-              :mask-closable="false"
-              width="55"
-              @on-cancel="onModelCancel"
-            >
-              <i-table border :columns="searchList.columns1" :data="searchList.pageData1.content"></i-table>
-              <Page
-                style="padding-top: 10px"
-                :total="searchList.pageData1.total"
-                :current="searchList.pageData1.pageNum"
-                :page-size="8"
-                @on-change="onPageChange1"
-                size="small"
-                show-total
-              ></Page>
-            </Modal>
-            <Modal
-              v-model="viewData.modalCollect"
-              title="收藏商品"
-              :mask-closable="false"
-              width="55"
-              @on-cancel="onModelCancel"
-            >
-              <i-table border :columns="searchList.columns1" :data="searchList.pageData1.content"></i-table>
-              <Page
-                style="padding-top: 10px"
-                :total="searchList.pageData1.total"
-                :current="searchList.pageData1.pageNum"
-                :page-size="8"
-                @on-change="onPageChange1"
-                size="small"
-                show-total
-              ></Page>
-            </Modal>
           </Form>
           <Form-item style="padding-top: 10px;">
             <i-table border :columns="searchList.columns" :data="searchList.pageData.content"></i-table>

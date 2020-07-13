@@ -425,9 +425,6 @@ export default {
                         type: 'success',
                         size: 'small'
                       },
-                      style: {
-                        marginRight: '15px'
-                      },
                       on: {
                         click: () => {
                           this.showPass(params.row)
@@ -550,7 +547,7 @@ export default {
     },
     delImg(index) {
       let img = this.viewData.Detail.merchantGallery[index],
-        find = img.indexOf('https://')
+        find = img.indexOf('http')
       if (find === 0) {
         this.showDelImg(img)
       } else {
@@ -598,9 +595,9 @@ export default {
     onEditBtn() {
       this.$Message.warning('上传中，请稍后...')
       let Img = this.viewData.Detail.merchantGallery.filter(
-        item => item.indexOf('https://') === -1
+        item => item.indexOf('http') === -1
       )
-      let Img1 = this.viewData.Detail.businessLicense.indexOf('https://')
+      let Img1 = this.viewData.Detail.businessLicense.indexOf('http')
       axios
         .put('/api/user/merchant_update', {
           registerId: this.viewData.Detail.registerId,
@@ -611,7 +608,7 @@ export default {
           legalPerson: this.viewData.Detail.legalPerson,
           contactNumber: this.viewData.Detail.contactNumber,
           businessLicense:
-            Img1 === -1 ? this.viewData.Detail.businessLicense : '',
+            Img1 === 0 ? '' : this.viewData.Detail.businessLicense,
           merchantGallery: Img.length ? Img : ''
         })
         .then(response => {
