@@ -44,15 +44,6 @@
                   :key="item.value"
                 >{{ item.label }}</Option>
               </Select>
-              <input
-                style="display:none"
-                class="ImgC"
-                type="file"
-                merchantName="avatar"
-                accept="image/gif, image/jpeg, image/jpg, image/png"
-                @change="changeImage($event)"
-                ref="avatarInput"
-              />
             </Form-item>
             <Form-item>
               <Button style="margin-right:10px" @click="searchPageReturn">
@@ -60,6 +51,14 @@
               </Button>
               <!-- <Button icon="md-add" @click="showAdd()">增加组织</Button> -->
             </Form-item>
+            <Modal
+              :mask-closable="false"
+              width="400"
+              v-model="viewData.modalDeleteImg"
+              @on-ok="onDeleteImg"
+            >
+              <span style="color:red">确认删除该图片吗？</span>
+            </Modal>
             <Modal
               :mask-closable="false"
               title="拒绝确认"
@@ -105,6 +104,127 @@
               的组织吗？
             </Modal>
             <Modal
+              v-model="viewData.modalEdit"
+              title="编辑组织"
+              :mask-closable="false"
+              @on-ok="onEditBtn"
+              width="40"
+              @on-cancel="onModelCancel"
+            >
+              <Form :label-width="100">
+                <Form-item class="form_item" label="单位名称:">
+                  <Input
+                    style="width: 200px"
+                    :maxlength="30"
+                    v-model="viewData.Detail.merchantName"
+                    type="text"
+                    placeholder="请输入"
+                  ></Input>
+                </Form-item>
+                <Form-item class="form_item" label="单位电话:">
+                  <Input
+                    style="width: 200px"
+                    :maxlength="13"
+                    v-model="viewData.Detail.merchantPhone"
+                    type="text"
+                    placeholder="请输入"
+                  ></Input>
+                </Form-item>
+                <Form-item class="form_item" label="单位地址:">
+                  <Input
+                    style="width: 300px"
+                    :maxlength="100"
+                    v-model="viewData.Detail.merchantAddr"
+                    type="textarea"
+                    placeholder="请输入"
+                  ></Input>
+                </Form-item>
+                <Form-item class="form_item" label="单位介绍:">
+                  <Input
+                    style="width: 300px"
+                    :maxlength="300"
+                    v-model="viewData.Detail.merchantDesc"
+                    type="textarea"
+                    placeholder="请输入"
+                  ></Input>
+                </Form-item>
+                <Form-item class="form_item" label="法人代表:">
+                  <Input
+                    style="width: 200px"
+                    :maxlength="5"
+                    v-model="viewData.Detail.legalPerson"
+                    type="text"
+                    placeholder="请输入"
+                  ></Input>
+                </Form-item>
+                <Form-item class="form_item" label="联系电话:">
+                  <Input
+                    style="width: 200px"
+                    :maxlength="11"
+                    v-model="viewData.Detail.contactNumber"
+                    type="text"
+                    placeholder="请输入"
+                  ></Input>
+                </Form-item>
+                <Form-item style="margin-top: -15px;padding-right: 10px;" label="营业执照:">
+                  <div>
+                    <Button class="choice_img">
+                      <Icon type="ios-cloud-upload-outline"></Icon>上传图片
+                      <input
+                        multiple
+                        class="ImgC"
+                        type="file"
+                        name="avatar"
+                        accept="image/gif, image/jpeg, image/jpg, image/png"
+                        @change="changeImage1($event)"
+                        ref="avatarInput"
+                      />
+                    </Button>
+                  </div>
+                </Form-item>
+                <Form-item class="img_container">
+                  <div style="position:relative;margin:0 1%;display:flex;">
+                    <img
+                      :src="viewData.Detail.businessLicense"
+                      style="width: 110px;height:110px;"
+                      preview="4"
+                    />
+                  </div>
+                </Form-item>
+                <Form-item style="margin-top: -15px;padding-right: 10px;" label="介绍图:">
+                  <div>
+                    <Button class="choice_img">
+                      <Icon type="ios-cloud-upload-outline"></Icon>上传图片
+                      <input
+                        multiple
+                        class="ImgC"
+                        type="file"
+                        name="avatar"
+                        accept="image/gif, image/jpeg, image/jpg, image/png"
+                        @change="changeImage($event)"
+                        ref="avatarInput"
+                      />
+                    </Button>
+                  </div>
+                </Form-item>
+                <Form-item class="img_container">
+                  <div
+                    v-for="(item, index) in viewData.Detail.merchantGallery"
+                    :key="index"
+                    style="position:relative;margin:0 1%;display:flex;"
+                  >
+                    <img :src="item" style="width: 110px;height:110px;" preview="5" />
+                    <Icon
+                      @click="delImg(index)"
+                      size="18"
+                      style="position:absolute;top:5px;right:5px"
+                      type="md-close-circle"
+                    />
+                  </div>
+                </Form-item>
+              </Form>
+            </Modal>
+            <Modal
               title="查看组织信息详情"
               width="55"
               :styles="{top: '70px'}"
@@ -145,8 +265,14 @@
                 <Row>
                   <Col span="4">图片介绍:</Col>
                   <Col span="18">
-                  <img v-for="(item,index) in viewData.Detail.merchantGallery" :key="index" :src="item" class="img_item"
-                    preview="1" preview-text="图片介绍" />
+                    <img
+                      v-for="(item,index) in viewData.Detail.merchantGallery"
+                      :key="index"
+                      :src="item"
+                      class="img_item"
+                      preview="1"
+                      preview-text="图片介绍"
+                    />
                   </Col>
                 </Row>
               </div>
@@ -174,7 +300,7 @@ import axios from 'axios'
 import qs from 'qs'
 
 export default {
-  data () {
+  data() {
     return {
       formDynamic: {
         index: 1,
@@ -255,6 +381,39 @@ export default {
                     }
                   },
                   '详情'
+                ),
+                h(
+                  'Button',
+                  {
+                    props: {
+                      type: 'primary',
+                      size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        this.showEdit(params.row)
+                      }
+                    }
+                  },
+                  '编辑'
+                ),
+                h(
+                  'Button',
+                  {
+                    props: {
+                      type: 'error',
+                      size: 'small'
+                    },
+                    style: {
+                      marginRight: '15px'
+                    },
+                    on: {
+                      click: () => {
+                        this.showDelete(params.row)
+                      }
+                    }
+                  },
+                  '删除'
                 )
               ]
               if (params.row.auditStatus === 0) {
@@ -265,6 +424,9 @@ export default {
                       props: {
                         type: 'success',
                         size: 'small'
+                      },
+                      style: {
+                        marginRight: '15px'
                       },
                       on: {
                         click: () => {
@@ -310,13 +472,17 @@ export default {
         },
         pageSizeOpts: [1, 5, 10, 20, 30, 40]
       },
+      delSrc: '',
       viewData: {
         goodsIId: '',
         Detail: '',
+        Edit: '',
         Delete: {},
         Confirm: {},
         modalDelete: false,
         modalDetail: false,
+        modalDeleteImg: false,
+        modalEdit: false,
         modalRefuse: false,
         modalPass: false,
         statusList: [
@@ -347,30 +513,73 @@ export default {
     }
   },
   methods: {
-    showImg (ad_picture_url) {
+    showImg(ad_picture_url) {
       this.$Modal.info({
         title: '预览图片',
         closable: true,
         content: `<br /><img style="width: 100%" src=${[ad_picture_url]} />`
       })
     },
-    onPageChange (pageNum) {
+    changeImage(e) {
+      let file = e.target.files
+      let that = this
+      let reader = new FileReader()
+      if (that.viewData.Detail.merchantGallery.length + file.length > 9) {
+        this.$Message.error('只能上传9张图片！')
+        this.$refs.avatarInput.value = ''
+        return false
+      }
+      for (let i = 0; i < file.length; i++) {
+        let reader = new FileReader()
+        reader.readAsDataURL(file[i])
+        reader.onload = function(e) {
+          console.log(that.viewData.Detail.merchantGallery)
+          that.viewData.Detail.merchantGallery.push(this.result)
+        }
+      }
+    },
+    changeImage1(e) {
+      let file = e.target.files[0]
+      let reader = new FileReader()
+      let that = this
+      reader.readAsDataURL(file)
+      reader.onload = function(e) {
+        that.viewData.Detail.businessLicense = this.result
+        console.log(that.viewData.Detail.businessLicense)
+      }
+    },
+    delImg(index) {
+      let img = this.viewData.Detail.merchantGallery[index],
+        find = img.indexOf('https://')
+      if (find === 0) {
+        this.showDelImg(img)
+      } else {
+        this.viewData.Detail.merchantGallery.splice(index, 1)
+        this.$refs.avatarInput.value = ''
+      }
+    },
+    showDelImg(img) {
+      this.viewData.delSrc = img
+      this.viewData.modalDeleteImg = true
+    },
+    onDeleteImg(img) {
+      axios
+        .delete('/api/user/delete_image', {
+          data: {
+            imageSrc: this.viewData.delSrc,
+            registerId: this.viewData.registerId
+          }
+        })
+        .then(response => {
+          this.$Message.success('删除成功!')
+          this.searchDetail()
+        })
+    },
+    onPageChange(pageNum) {
       this.searchList.searchCondition.page = pageNum
       this.searchManage()
     },
-    onDeleteBtn () {
-      axios
-        .delete('/api/merchant/delete', {
-          data: {
-            registerId: this.viewData.Delete.registerId
-          }
-        })
-        .then(res => {
-          this.$Message.success('删除成功!')
-          this.searchManage()
-        })
-    },
-    onAuditBtn (status) {
+    onAuditBtn(status) {
       axios
         .put(
           '/api/user/merchant_audit',
@@ -386,33 +595,77 @@ export default {
           this.searchManage()
         })
     },
-    onModelCancel () {
+    onEditBtn() {
+      this.$Message.warning('上传中，请稍后...')
+      let Img = this.viewData.Detail.merchantGallery.filter(
+        item => item.indexOf('https://') === -1
+      )
+      let Img1 = this.viewData.Detail.businessLicense.indexOf('https://')
+      axios
+        .put('/api/user/merchant_update', {
+          registerId: this.viewData.Detail.registerId,
+          merchantName: this.viewData.Detail.merchantName,
+          merchantAddr: this.viewData.Detail.merchantAddr,
+          merchantPhone: this.viewData.Detail.merchantPhone,
+          merchantDesc: this.viewData.Detail.merchantDesc,
+          legalPerson: this.viewData.Detail.legalPerson,
+          contactNumber: this.viewData.Detail.contactNumber,
+          businessLicense:
+            Img1 === -1 ? this.viewData.Detail.businessLicense : '',
+          merchantGallery: Img.length ? Img : ''
+        })
+        .then(response => {
+          this.viewData.Edit = {}
+          this.$refs.avatarInput.value = ''
+          this.searchManage()
+          this.$Message.success('编辑成功!')
+        })
+    },
+    onModelCancel() {
       this.searchManage()
     },
-    showDetail (row) {
+    showDetail(row) {
       this.viewData.modalDetail = true
       this.viewData.Detail = row
       this.viewData.registerId = row.registerId
       this.searchDetail()
     },
-    showPass (item) {
+    showEdit(row) {
+      this.viewData.modalEdit = true
+      this.viewData.Edit = row
+      this.viewData.registerId = row.registerId
+      this.searchDetail()
+    },
+    showPass(item) {
       this.viewData.Confirm = item
       this.viewData.modalPass = true
     },
-    showRefuse (item) {
+    showRefuse(item) {
       this.viewData.Confirm = item
       this.viewData.modalRefuse = true
     },
-    showDelete (item) {
+    showDelete(item) {
       this.viewData.Delete = item
       this.viewData.modalDelete = true
     },
-    searchPageReturn () {
+    onDeleteBtn() {
+      axios
+        .delete('/api/user/merchant_delete', {
+          data: {
+            registerId: this.viewData.Delete.registerId
+          }
+        })
+        .then(response => {
+          this.$Message.success('删除成功!')
+          this.searchManage()
+        })
+    },
+    searchPageReturn() {
       this.searchList.searchCondition.page = 1
       this.searchManage()
       this.$Message.success('搜索完成!')
     },
-    searchManage () {
+    searchManage() {
       axios
         .get('/api/user/merchant_list', {
           params: {
@@ -427,7 +680,7 @@ export default {
           this.searchList.pageData.total = res.data.total
         })
     },
-    searchDetail () {
+    searchDetail() {
       axios
         .get('/api/user/merchant_detail', {
           params: {
@@ -435,11 +688,12 @@ export default {
           }
         })
         .then(res => {
+          this.$previewRefresh()
           this.viewData.Detail = res.data
         })
     }
   },
-  created () {
+  created() {
     this.searchManage()
   }
 }

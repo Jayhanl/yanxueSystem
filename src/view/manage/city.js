@@ -59,7 +59,7 @@ module.exports = [{
   label: '天津市',
   children: [{
     value: '1201',
-    label: '北京市',
+    label: '天津市',
     children: [{
       value: '120101',
       label: '和平区'
@@ -2573,7 +2573,7 @@ module.exports = [{
   label: '上海市',
   children: [{
     value: '3101',
-    label: '北京市',
+    label: '上海市',
     children: [{
       value: '310101',
       label: '黄浦区'
@@ -7585,7 +7585,7 @@ module.exports = [{
   label: '重庆市',
   children: [{
     value: '5001',
-    label: '北京市',
+    label: '重庆市',
     children: [{
       value: '500101',
       label: '万州区'
